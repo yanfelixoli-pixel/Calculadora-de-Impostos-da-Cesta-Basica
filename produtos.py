@@ -9,65 +9,61 @@ ALIQUOTA_PADRAO = 0.25  # alíquota padrão hipotética (IBS + CBS)
 
 
 class Produto:
-    """Classe base de todos os produtos do supermercado."""
+    """Classe Base de Todos os produtos do supermercado."""
 
     def __init__(self, nome: str, preco: float):
         self.nome = nome
-        # TODO: atribua o preço usando a property (self.preco = preco),
-        #       para que a validação do setter também valha na criação.
+        self.preco = preco
         pass
 
     @property
     def preco(self) -> float:
         """Preço do produto SEM imposto."""
-        # TODO: retorne o atributo protegido (ex.: self._preco)
+        return self._preco
         pass
 
     @preco.setter
     def preco(self, valor: float) -> None:
-        # TODO: lance ValueError se o valor for negativo;
-        #       caso contrário, guarde em self._preco
+        if valor < 0;
+            raise ValueEror ("Preço não pode ser negativo.")
+        self._preco = valor
         pass
 
     def aliquota(self) -> float:
         """Cada subclasse define sua própria alíquota."""
-        # TODO: lance NotImplementedError (a classe base não tem alíquota)
+       raise NotImplementedError
         pass
 
     def imposto(self) -> float:
         """Imposto de UMA unidade: round(preco * aliquota, 2)."""
-        # TODO
+        Return round (self.preco* self.aliquota(), 2)
         pass
 
     def preco_final(self) -> float:
         """Preço + imposto, arredondado em 2 casas."""
-        # TODO
+        Return round (self.preco* self.imposto(), 2)
         pass
 
     def __str__(self) -> str:
         """Formato: 'Arroz 5kg - R$ 25.90 (imposto: R$ 0.00)'"""
-        # TODO: use f-string com :.2f
         pass
-
 
 class ProdutoCestaBasica(Produto):
     """Item da Cesta Básica Nacional: alíquota zero."""
-
-    # TODO: sobrescreva aliquota() retornando 0.0
+    def aliquota (self)
+        return 0.0
     pass
 
 
 class ProdutoReduzido(Produto):
     """Alimento com redução de 60%: paga 40% da alíquota padrão."""
-
-    # TODO: sobrescreva aliquota() usando ALIQUOTA_PADRAO
+    def aliquota (self)
+        return 0.40 * ALIQUOTA_PADRAO
     pass
 
 
 class ProdutoPadrao(Produto):
     """Produto sem benefício: paga a alíquota padrão."""
-
-    # TODO: sobrescreva aliquota() retornando ALIQUOTA_PADRAO
     pass
 
 
