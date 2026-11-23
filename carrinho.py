@@ -16,52 +16,49 @@ class Carrinho:
         self._itens = {}
 
     def adicionar(self, produto: Produto, quantidade: int = 1) -> None:
-        """
-        - TypeError se produto não for instância de Produto
-        - ValueError se quantidade não for inteiro >= 1
-        - Se já existir produto com o mesmo nome, soma a quantidade
-        """
-        # TODO
+        if not isinstance(produto, Produto):
+            raise TypeError("produto deve ser uma instância de Produto")
+        if not isinstance(quantidade, int) or quantidade < 1:
+            raise ValueError("quantidade deve ser um inteiro >= 1")
+
+        if produto.nome in self._itens:
+            self._itens[produto.nome][1] += quantidade
+        else:
+            self._itens[produto.nome] = [produto, quantidade]
         pass
 
     def remover(self, nome: str) -> None:
-        """Remove o produto inteiro. KeyError se não existir."""
-        # TODO
+        if nome not in self._itens:
+            raise KeyError(nome)
+        del self._itens[nome]
         pass
 
     def subtotal(self) -> float:
-        """Soma de preco * quantidade (sem impostos)."""
-        # TODO
+        return round(sum(produto.preco * qtd for produto, qtd in self._itens.values()), 2)
         pass
 
     def total_impostos(self) -> float:
-        """Soma de produto.imposto() * quantidade."""
-        # TODO
+        return round(sum(produto.imposto() * qtd for produto, qtd in self._itens.values()), 2)
         pass
 
     def total(self) -> float:
-        """subtotal() + total_impostos()"""
-        # TODO
+        return round(self.subtotal() + self.total_impostos(), 2)
         pass
 
     def economia(self) -> float:
-        """
-        Quanto o consumidor pagaria A MAIS se todos os produtos
-        tivessem a alíquota padrão:
-            soma de round(preco * ALIQUOTA_PADRAO, 2) * quantidade
-            menos total_impostos()
-        """
-        # TODO
+        total_se_fosse_padrao = sum(
+            round(produto.preco * ALIQUOTA_PADRAO, 2) * qtd
+            for produto, qtd in self._itens.values()
+        )
+        return round(total_se_fosse_padrao - self.total_impostos(), 2)
         pass
 
     def __len__(self) -> int:
-        """Total de UNIDADES no carrinho."""
-        # TODO
+        return sum(qtd for _, qtd in self._itens.values())
         pass
 
     def __contains__(self, nome: str) -> bool:
-        """Permite: 'Arroz 5kg' in carrinho"""
-        # TODO
+        return nome in self._itens
         pass
 
 
